@@ -6,9 +6,9 @@
  
 
 使用该类时，先填写本文件的数据库信息部分。然后在需要引入的地方添加如下三行必要代码：
-    1.第一行： include('MySQLiTableController.class.php');
+    1.第一行： include('MySQLiController.class.php');
         引入该类文件，同时自动创建数据库链接资源$dbr并选择数据库
-    2. 第二行： $MySQLiTableController = new MySQLiTableController( $dbr );
+    2. 第二行： $MySQLiController = new MySQLiController( $dbr );
         创建该类实例，并将数据库连接资源作为参数传入
     3. 第三行： $dbr->close();
         所有数据库操作的结尾需要通过 $dbr->close() 来手动关闭数据库
@@ -247,12 +247,6 @@ class MySQLiController
     {
         $query = 'SELECT *  FROM ' . $tableName;
         return mysqli_num_rows(mysqli_query($this->dbr, $query) );
-    }
-
-    public function allLine($tableName)
-    {
-        $query = 'SELECT *  FROM ' . $tableName;
-        return mysqli_query($this->dbr, $query);
     }
 
     
