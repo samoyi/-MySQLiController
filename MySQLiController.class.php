@@ -1,42 +1,10 @@
 
 <?php
 
-/*
-    使用该类会引入一个全局变量 $dbr
- 
-
-使用该类时，先填写本文件的数据库信息部分。然后在需要引入的地方添加如下三行必要代码：
-    1.第一行： include('MySQLiController.class.php');
-        引入该类文件，同时自动创建数据库链接资源$dbr并选择数据库
-    2. 第二行： $MySQLiController = new MySQLiController( $dbr );
-        创建该类实例，并将数据库连接资源作为参数传入
-    3. 第三行： $dbr->close();
-        所有数据库操作的结尾需要通过 $dbr->close() 来手动关闭数据库
-
-
-
-
-
-
-*/
-
-
-/*TODO 
-    1. 输入函数需要进行数据格式化 $this->dbr->->real_escape_string($str);
-    2. 备份数据库不是mysqli
-
-*/
-
-
-
 
 
 //数据库信息和数据库连接————————————————————————————————————————————————————————————————————————————————————————————————————
-
-define('DB_ADDRESS', '127.0.0.1');//数据库连接地址
-define('DB_USER', 'root');//数据库用户名
-define('DB_PASSWORD', 'root');//数据库密码
-define('DB_NAME', 'myblog');//数据库名称
+require_once "DBInfo.php";
 
 $dbr = new mysqli(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_NAME);
 $dbr->select_db( DB_NAME );
@@ -88,12 +56,28 @@ class MySQLiController
         $query = 'CREATE TABLE ' . $tableName . $tableMode;
         if( $this->dbr->query( $query ) )
         {
-            
+            return true;
         }
         else
         {
-            echo 'could not create the table';
+            
+            return false;
         }   
+    }
+
+    // 删除表
+    public function dropTable( $tableName )
+    {
+        $query = 'DROP TABLE ' . $tableName;
+        if( $this->dbr->query( $query ) )
+        {
+            return true;
+        }
+        else
+        {
+            echo 'could not drop the table';
+            return false;
+        }
     }
 
 
