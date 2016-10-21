@@ -2,7 +2,7 @@
 
 
 ## 使用方法：
-1. 保证 MySQLiController.class.php 和 DBInfo.php 。如果不在，需要在前者中修改引用后者的路径。
+1. 保证 MySQLiController.class.php 和 DBInfo.php 在同级目录 。如果不在，需要在前者中修改引用后者的路径。
 2. 在 DBInfo.php 中填写数据库信息
 3. 然后在需要引入的地方添加如下三行必要代码：  
   1. 第一行： ```require_once('MySQLiController.class.php');```  

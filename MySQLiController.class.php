@@ -29,18 +29,28 @@ class MySQLiController
     {
         $query = 'SHOW KEYS FROM ' . $tableName . ' WHERE Key_name = "PRIMARY"';
         $result = mysqli_query($this->dbr, $query);
-        return $result->fetch_array()['Column_name'];
+        $aKeyInfo = $result->fetch_array();
+        return $aKeyInfo['Column_name'];
     }
 
+
+    // 属性 ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+    function __get($name)
+    {
+        switch($name)
+        {
+            case "version": // MySQL版本
+            {
+                $query = 'SELECT version()';
+                $result = mysqli_query($this->dbr, $query);
+                $aVersionInfo = $result->fetch_array();
+                return $aVersionInfo["version()"];
+            }
+        }
+    }
 
     //整体操作——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-
-    public function MySQL_version()
-    {
-        $query = 'SELECT version()';
-        $result = mysqli_query($this->dbr, $query);
-        return $result->fetch_array()["version()"];
-    }
     
     //创建表
     /*本文件只需要设置 $tableMode 变量即可，参考以下格式
