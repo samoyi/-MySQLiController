@@ -235,13 +235,37 @@ class MySQLiController
         return mysqli_query($this->dbr, $query);
     }
     
+
     //读取区域——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    
+    // 表结构相关——————————————————————————————————————————————————————————————————
+
+    // 获得某列信息
+    public function getColumnInfoArray($tableName, $sColumn )
+    {
+        $query = 'SHOW FIELDS FROM ' . $tableName . ' where Field ="' . $sColumn . '"';
+        $result = mysqli_query($this->dbr, $query);
+        return $result->fetch_array();
+    }
+
+
+
+
+
+
+    
+    // 内容行相关——————————————————————————————————————————————————————————————————
+
+
+
     //获得总行数
     public function allLineNum($tableName)
     {
         $query = 'SELECT *  FROM ' . $tableName;
         return mysqli_num_rows(mysqli_query($this->dbr, $query) );
     }
+
+
 
     
     //查找重复
@@ -412,6 +436,16 @@ class MySQLiController
 			}
 		}
 	}
+
+    // 修改列名
+    public function changeColumnName($tableName, $sColumn, $sNewname)
+    {
+        $aColumnInfo = $this->getColumnInfoArray($tableName, $sColumn);
+        $sOldName = $aColumnInfo["Field"];
+        $sType = $aColumnInfo["Type"];
+        $query = 'ALTER TABLE ' . $tableName . ' CHANGE ' . $sOldName . ' ' . $sNewname . ' ' . $sType;
+        return $result = mysqli_query( $this->dbr, $query );
+    }
 
 	//插入新行。参数是一个数组，数组包含一项或多项，每一项是一行中值得字符串，例如'0, "li", "17"'
 	//TODO 不知道为什么必须要给主键传0，看其他例子上也没有
