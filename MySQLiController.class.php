@@ -438,7 +438,7 @@ class MySQLiController
 	}
 
     // 修改列名
-    public function changeColumnName($tableName, $sColumn, $sNewname)
+    public function columnReame($tableName, $sColumn, $sNewname)
     {
         $aColumnInfo = $this->getColumnInfoArray($tableName, $sColumn);
         $sOldName = $aColumnInfo["Field"];
