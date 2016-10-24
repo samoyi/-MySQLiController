@@ -447,6 +447,13 @@ class MySQLiController
         return $result = mysqli_query( $this->dbr, $query );
     }
 
+    // 修改列类型
+    public function changeColumnType($tableName, $sColumn, $sType)
+    {
+        $query = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $sColumn . ' ' . $sType;
+        return $result = mysqli_query( $this->dbr, $query );
+    }
+
 	//插入新行。参数是一个数组，数组包含一项或多项，每一项是一行中值得字符串，例如'0, "li", "17"'
 	//TODO 不知道为什么必须要给主键传0，看其他例子上也没有
 	public function insertRow($tableName, $aValue)
