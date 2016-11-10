@@ -509,7 +509,9 @@ class MySQLiController
     }
 
 	//更新值。第二个参数是要更改的值所在的列，第三个参数是新值，第四个参数WHERE子句用来定位到所在行
-	//TODO 这里即使给列名加上双引号，result也会是true，但实际上数据并没有更新
+	/*
+	 *	TODO 这里即使给列名加上双引号，result也会是true，但实际上数据并没有更新
+	 */
 	/*public function updateData($tableName, $locValueCol, $newValue, $where)
 	{
 		$query = 'UPDATE ' . $tableName . ' SET ' . $locValueCol . ' = ' . $newValue . ' WHERE ' . $where;
@@ -551,6 +553,22 @@ class MySQLiController
             return false;
         }
     }
+	
+	
+	// 将一列改为同一个值
+	public function unifyColumn($tableName, $sCol, $value)
+	{
+		$query = 'UPDATE ' . $tableName . ' SET ' . $sCol . '=' . $value;
+        $result = $this->dbr->query( $query );
+        if( $result )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 }
 
 ?>
