@@ -419,21 +419,19 @@ class MySQLiController
 		}
 	}
 
-	//删除列。参数为一个数组，数组项为一个或多个列名字符串
-	public function dropColumn($tableName, $aColName)
+	//删除列
+	public function dropColumn($tableName, $sColName)
 	{	
-		foreach( $aColName as $colName)
+
+		$query = 'ALTER TABLE ' . $tableName . ' DROP ' . $sColName;
+		$result = $this->dbr->query( $query );
+		if( $result )
 		{
-			$query = 'ALTER TABLE ' . $tableName . ' DROP ' . $colName;
-			$result = $this->dbr->query( $query );
-			if( $result )
-			{
-				echo "<p>column has been droped</p>";
-			}
-			else
-			{
-				echo "<p>could not drop column</p>";
-			}
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
