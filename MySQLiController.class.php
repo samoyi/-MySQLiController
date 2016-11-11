@@ -454,23 +454,37 @@ class MySQLiController
         return $result = mysqli_query( $this->dbr, $query );
     }
 
-	//插入新行。参数是一个数组，数组包含一项或多项，每一项是一行中值得字符串，例如'0, "li", "17"'
-	//TODO 不知道为什么必须要给主键传0，看其他例子上也没有
-	public function insertRow($tableName, $aValue)
-	{
-		foreach( $aValue as $value)
+	//插入新行。第二个参数是列名数组，第三个参数是相应的值数组
+	public function insertRow($tableName, $aCol, $aValue)
+	{	
+		$len = count( $aCol );
+		$keys = '';
+		$values = '';
+		
+		for($i=0; $i<$len; $i++)
 		{
-			$query = 'INSERT INTO ' . $tableName . ' VALUES (' . $value . ')';
-			$result = $this->dbr->query( $query );
-			if( $result )
+			if( $i !== $len-1 )
 			{
-				return true;
+				$keys .= $aCol[$i] . ',';
+				$values .= '"' . $aValue[$i] . '",';
 			}
 			else
 			{
-				return false;
+				$keys .= $aCol[$i] . '';
+				$values .= '"' . $aValue[$i] . '"';
 			}
 		}
+		$query  = 'INSERT INTO ' . $tableName . '(' . $keys . ') VALUES (' . $values . ')';
+		file_put_contents("err.txt", $query);
+		$result = $this->dbr->query( $query );
+		if( $result )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		} 
 	}
 
 	//删除行。参数是数组，包含一个或者多个项，每个项是一个WHERE子句
