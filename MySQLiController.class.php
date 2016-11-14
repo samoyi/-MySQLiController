@@ -23,6 +23,7 @@ class MySQLiController
     function __construct($dbr)
     {	
         $this->dbr = $dbr;
+		mysqli_query($this->dbr,"set names utf8");
     }
 
     protected function getPrimaryKey($tableName)
