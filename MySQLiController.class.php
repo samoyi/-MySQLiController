@@ -2,6 +2,13 @@
 <?php
 
 
+/*
+ * 开发中。
+ * 正在使用该类的项目：红房子微信公众平台
+ *
+ *
+ */
+
 
 //数据库信息和数据库连接————————————————————————————————————————————————————————————————————————————————————————————————————
 require_once "DBInfo.php";
@@ -471,7 +478,6 @@ class MySQLiController
 			}
 		}
 		$query  = 'INSERT INTO ' . $tableName . '(' . $keys . ') VALUES (' . $values . ')';
-		file_put_contents("err.txt", $query);
 		$result = $this->dbr->query( $query );
 		if( $result )
 		{
@@ -522,19 +528,6 @@ class MySQLiController
 	/*
 	 *	TODO 这里即使给列名加上双引号，result也会是true，但实际上数据并没有更新
 	 */
-	/*public function updateData($tableName, $locValueCol, $newValue, $where)
-	{
-		$query = 'UPDATE ' . $tableName . ' SET ' . $locValueCol . ' = ' . $newValue . ' WHERE ' . $where;
-		$result = $this->dbr->query( $query );
-		if( $result )
-        {
-            return true;
-        }
-        else
-		{
-			return false;
-		}
-	}*/
     public function updateData($tableName, $aLocValueCol, $aNewValue, $where)
     {
         if( sizeof($aLocValueCol) !== sizeof($aNewValue))
