@@ -3,13 +3,17 @@
 require_once('MySQLiController.class.php');
 $MySQLiController = new MySQLiController( $dbr );
 
-//echo date("Y-m-d G:i:s");
-$result = $MySQLiController->updateData("test", ["modifyTime", "age"], [date("Y-m-d G:i:s"), 999], 'name="ni"');
+$tableName = 'test';
+//$where = 'name="h\\\egg222"';
+$where = 'name="hj"';
 
+$aCol = array('name', 'age');
+$aValue = array('name11', 177);
 
-//2016-10-14 00:00:00
+$result = $MySQLiController->insertRow($tableName, $aCol, $aValue);
+//$result = $MySQLiController->deleteRow($tableName, $where);
 
-print_r( $result );
+var_dump( $result );
 
 $dbr->close();
 

@@ -14,7 +14,6 @@
 require_once "DBInfo.php";
 
 $dbr = new mysqli(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_NAME);
-$dbr->select_db( DB_NAME );
 
 //数据库信息和数据库连接结束————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -267,9 +266,16 @@ class MySQLiController
 
 
     //获得总行数
-    public function allLineNum($tableName)
+    public function allLineNum($tableName, $where="")
     {
-        $query = 'SELECT *  FROM ' . $tableName;
+		if($where){
+			
+			$query = 'SELECT *  FROM ' . $tableName . ' WHERE ' . $where;
+		}
+		else{
+			$query = 'SELECT *  FROM ' . $tableName;
+		}
+        
         return mysqli_num_rows(mysqli_query($this->dbr, $query) );
     }
 
@@ -469,12 +475,12 @@ class MySQLiController
 			if( $i !== $len-1 )
 			{
 				$keys .= $aCol[$i] . ',';
-				$values .= '"' . $aValue[$i] . '",';
+				$values .= '"' . $this->dbr->real_escape_string($aValue[$i]) . '",';
 			}
 			else
 			{
 				$keys .= $aCol[$i] . '';
-				$values .= '"' . $aValue[$i] . '"';
+				$values .= '"' . $this->dbr->real_escape_string($aValue[$i]) . '"';
 			}
 		}
 		$query  = 'INSERT INTO ' . $tableName . '(' . $keys . ') VALUES (' . $values . ')';
@@ -490,20 +496,18 @@ class MySQLiController
 	}
 
 	//删除行。参数是数组，包含一个或者多个项，每个项是一个WHERE子句
-	public function deleteRow($tableName, $aWhere)
+	public function deleteRow($tableName, $where)
 	{
-		foreach( $aWhere as $value)
+		$query = 'DELETE FROM ' . $tableName . ' WHERE (' . $where . ')';
+		$result = $this->dbr->query( $query );
+
+		if( $this->dbr->affected_rows ) // 至少删了一行
 		{
-			$query = 'DELETE FROM ' . $tableName . ' WHERE (' . $value . ')';
-			$result = $this->dbr->query( $query );
-			if( $result )
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
