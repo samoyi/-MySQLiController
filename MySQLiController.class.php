@@ -501,7 +501,7 @@ class MySQLiController
 		$query = 'DELETE FROM ' . $tableName . ' WHERE (' . $where . ')';
 		$result = $this->dbr->query( $query );
 
-		if( $this->dbr->affected_rows ) // 至少删了一行
+		if( $this->dbr->affected_rows && $result ) // 删除没有出错且至少删了一行
 		{
 			return true;
 		}
