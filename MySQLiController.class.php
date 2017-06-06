@@ -317,18 +317,17 @@ class MySQLiController
     }
 
 
-    //按照某一列的值来排序。该函数的返回值需要循环使用fetch_array来以此取值
-    //第一个参数是用来排序的列，默认降序排列，第二个参数如果为true，则为升序
-    public function getDataByRank($tableName, $col, $asc=false)
+    // 按照某一列的值来排序。该函数的返回值需要循环使用fetch_array来以此取值
+    // $col参数是用来排序的列，默认降序排列，$asc参数如果为true，则为升序
+    public function getDataByRank($tableName, $where="", $col, $asc=false)
     {
-    	if( $asc )
-        {
-            $query = 'SELECT * FROM ' . $tableName . ' ORDER BY ' . $col;
-        }
-        else
-        {
-            $query = 'SELECT * FROM ' . $tableName . ' ORDER BY ' . $col . ' DESC';
-        }
+		if( trim($where) !== "" ){
+			$where = ' WHERE ' . $where;
+		}
+		
+		$asc = $asc ? "" : ' DESC';
+
+        $query = 'SELECT * FROM ' . $tableName . $where . ' ORDER BY ' . $col . $asc;
         $result = $this->dbr->query( $query );
         if( $result )
 		{
@@ -336,7 +335,7 @@ class MySQLiController
 		}
 		else
 		{
-			echo "<p>could not rank the column</p>";
+			echo json_encode($result);
 		}
     }
 
