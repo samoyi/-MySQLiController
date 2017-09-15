@@ -14,6 +14,9 @@
 require_once "DBInfo.php";
 
 $dbr = new mysqli(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_NAME);
+if( $dbr->connect_error ){
+	throw new Exception($dbr->connect_error);
+}
 
 //数据库信息和数据库连接结束————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -324,7 +327,7 @@ class MySQLiController
 		if( trim($where) !== "" ){
 			$where = ' WHERE ' . $where;
 		}
-		
+
 		$asc = $asc ? "" : ' DESC';
 
         $query = 'SELECT * FROM ' . $tableName . $where . ' ORDER BY ' . $col . $asc;
