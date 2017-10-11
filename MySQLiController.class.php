@@ -318,11 +318,28 @@ class MySQLiController
     }
 
 	// 获取所有行的数据
-	public function getAll($tableName){
+	public function getAll($tableName, $col){
 		$query = 'SELECT * FROM ' . $tableName;
     	$result = $this->dbr->query( $query );
     	if( $result ){
-			return $result;
+			if( empty($col) ){
+				$rows = array();
+				while( $row=$result->fetch_array() ){
+					$rows[] = $row;
+				}
+				return $rows;
+			}
+			else{
+				$grouped = array();
+				while( $row=$result->fetch_array() ){
+					if (isset($grouped[$row[$col]])) {
+						$grouped[$row[$col]][] = $row;
+					} else {
+						$grouped[$row[$col]] = array($row);
+					}
+				}
+				return $grouped;
+			}
 		}
 		else{
 			echo "<p>could not get rows</p>";
