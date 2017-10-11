@@ -19,5 +19,3 @@
 ## TODO
 * 输入函数需要进行数据格式化 $this->dbr->->real_escape_string($str);
 * 备份数据库不是mysqli
-* 加入一个将查询结果转换为数组的方法，在调用相关查询方法后不需要再使用fetch_array自
-  己转换
