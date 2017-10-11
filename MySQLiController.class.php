@@ -318,7 +318,12 @@ class MySQLiController
     }
 
 	// 获取所有行的数据
-	public function getAll($tableName, $col){
+	/*
+	 * @para $col 可以传入一个列名，结果将按照该列数据进行分类
+	 *            例如一个用户学历表中，如果传入学历的列名，则返回的结果是按照不同
+	 *                学历分组的用户信息行
+	 */
+	public function getAll($tableName, $col=""){
 		$query = 'SELECT * FROM ' . $tableName;
     	$result = $this->dbr->query( $query );
     	if( $result ){
