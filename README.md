@@ -19,3 +19,4 @@
 ## TODO
 * 输入函数需要进行数据格式化 $this->dbr->->real_escape_string($str);
 * 备份数据库不是mysqli
+* 安全
