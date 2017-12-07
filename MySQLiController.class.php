@@ -13,7 +13,7 @@
 //数据库信息和数据库连接————————————————————————————————————————————————————————————————————————————————————————————————————
 require_once "DBInfo.php";
 
-$dbr = new mysqli(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_NAME);
+$dbr = new mysqli(MSC_DB_ADDRESS, MSC_DB_USER, MSC_DB_PASSWORD, MSC_DB_NAME);
 if( $dbr->connect_error ){
 	throw new Exception($dbr->connect_error);
 }
