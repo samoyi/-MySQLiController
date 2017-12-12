@@ -577,18 +577,24 @@ class MySQLiController
     }
 
 	// Increase or Decrease
-	public function increase($tableName, $sCol, $where, $bDecrease=false){
+	public function increase($tableName, $sCol, $where, $bDecrease=false, $nLimitation=null){
+
 		$result = $this->getRow($tableName, $where);
-		$row = $result->fetch_array();
+		$row = $result[0];
 		if( is_numeric($row[$sCol])){
-			$nIncrement = $bDecrease ? -1 : 1;
-			$query = 'UPDATE ' . $tableName . ' SET ' . $sCol . '=' . ($row[$sCol]+$nIncrement) . ' WHERE ' . $where;
-			$result = $this->dbr->query( $query );
-			if( $result ){
-					return true;
+			if($nLimitation===(int)$row[$sCol]){
+				return $bDecrease ? 'min' : 'max';
 			}
 			else{
+				$nIncrement = $bDecrease ? -1 : 1;
+				$query = 'UPDATE ' . $tableName . ' SET ' . $sCol . '=' . ($row[$sCol]+$nIncrement) . ' WHERE ' . $where;
+				$result = $this->dbr->query( $query );
+				if( $this->dbr->affected_rows && $result ){
+					return true;
+				}
+				else{
 					return $this->dbr->error;
+				}
 			}
 		}
 		else{
