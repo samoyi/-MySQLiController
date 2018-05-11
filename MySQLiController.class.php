@@ -1,13 +1,4 @@
-
 <?php
-
-
-/*
- * 开发中。
- * 正在使用该类的项目：红房子微信公众平台
- *
- *
- */
 
 
 //数据库信息和数据库连接————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -557,13 +548,9 @@ class MySQLiController
             throw new Exception('要更改的列数和提供的更改值数目不对应');
             return false;
         }
-        /*function setUpdateStr( $value, $key )
-        {
-            $value . '="' .  $aNewValue[$key] . '",';
-        }*/
         $sUpdate = '';
         foreach($aLocValueCol as $key=>$value){
-            $sUpdate .= $value . '="' .  $aNewValue[$key] . '",';
+			$sUpdate .= $value . "='" .  $aNewValue[$key] . "',";
         }
         $sUpdate = substr($sUpdate, 0, -1);//删除最后一个逗号
         $query = 'UPDATE ' . $tableName . ' SET ' . $sUpdate . ' WHERE ' . $where;
