@@ -1,4 +1,4 @@
-# Personal MySQL library for learn PHP
+# Personal MySQL library for learning
 
 
 ## 使用方法：
